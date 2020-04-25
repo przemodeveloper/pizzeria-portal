@@ -25,24 +25,27 @@ const Login = () => {
   return(
     <form className={classes.root} noValidate autoComplete="off">
       <div className={styles.component}>
-        <TextField
-          required
-          id="outlined-required"
-          label="Login"
-          variant="outlined"
-        />
-        <TextField
-          id="outlined-password-input"
-          label="Password"
-          type="password"
-          autoComplete="current-password"
-          variant="outlined"
-        />
-      </div>
-      <div className={classes.buttonStyle}>
-        <Button variant="contained" color="primary">
-          Sign in
-        </Button>
+        <div className={styles.textField}>
+          <TextField
+            required
+            id="outlined-required"
+            label="Login"
+            variant="outlined"
+            type="email"
+          />
+          <TextField
+            id="outlined-password-input"
+            label="Password"
+            type="password"
+            autoComplete="current-password"
+            variant="outlined"
+          />
+        </div>
+        <div className={classes.buttonStyle}>
+          <Button variant="contained" color="primary">
+            Sign in
+          </Button>
+        </div>
       </div>
     </form>
   );

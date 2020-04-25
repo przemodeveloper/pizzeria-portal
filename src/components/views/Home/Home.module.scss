@@ -1,0 +1,30 @@
+@import '../../../styles/settings.scss';
+
+.component {
+  padding: $base-size;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+h1 {
+  color: darkblue;
+  border: 2px solid darkblue;
+  padding: 20px;
+}
+
+h3 {
+  display: flex;
+  justify-content: center;
+  color: darkblue;
+}
+
+.items {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
