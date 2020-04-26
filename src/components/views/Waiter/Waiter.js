@@ -92,7 +92,7 @@ class Waiter extends React.Component {
             <TableBody>
               {tables.map(row => (
                 <TableRow key={row.id}>
-                  <TableCell component="th" scope="row">
+                  <TableCell className={styles.header} component="th" scope="row">
                     {row.id}
                   </TableCell>
                   <TableCell>
