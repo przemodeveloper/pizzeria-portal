@@ -5,6 +5,7 @@ import { getAll, fetchFromAPI, getLoadingState } from '../../../redux/tablesRedu
 const mapStateToProps = (state) => ({
   tables: getAll(state),
   loading: getLoadingState(state),
+
 });
 
 const mapDispatchToProps = (dispatch) => ({

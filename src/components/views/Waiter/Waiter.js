@@ -14,8 +14,9 @@ class Waiter extends React.Component {
     fetchTables: PropTypes.func,
     loading: PropTypes.shape({
       active: PropTypes.bool,
+      error: PropTypes.oneOfType(PropTypes.bool,PropTypes.string),
     }),
-    tables: PropTypes.object,
+    tables: PropTypes.array,
   }
 
   componentDidMount(){
@@ -57,12 +58,8 @@ class Waiter extends React.Component {
     }
   }
 
-  /*eslint-disable */
-
   render() {
     const { loading: { active, error }, tables } = this.props;
-
-  /*eslint-enable */
 
     if(active || !tables.length){
       return (
@@ -92,7 +89,7 @@ class Waiter extends React.Component {
             <TableBody>
               {tables.map(row => (
                 <TableRow key={row.id}>
-                  <TableCell className={styles.header} component="th" scope="row">
+                  <TableCell component="th" scope="row">
                     {row.id}
                   </TableCell>
                   <TableCell>

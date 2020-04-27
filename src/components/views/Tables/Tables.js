@@ -97,7 +97,7 @@ const Tables = () => {
           <TableBody>
             {demoContent.map(row => (
               <TableRow key={row.hour}>
-                <TableCell className={styles.header} component="th" scope="row">
+                <TableCell component="th" scope="row">
                   {row.hour}
                 </TableCell>
                 <TableCell>
@@ -107,35 +107,35 @@ const Tables = () => {
                     </Link>
                   )}
                 </TableCell>
-                <TableCell className={styles.header}>
+                <TableCell>
                   {row.table2 && (
                     <Link to={`${process.env.PUBLIC_URL}/tables/bookings/${row.table2}`}>
                       {row.table2}
                     </Link>
                   )}
                 </TableCell>
-                <TableCell className={styles.header}>
+                <TableCell>
                   {row.table3 && (
                     <Link to={`${process.env.PUBLIC_URL}/tables/bookings/${row.table3}`}>
                       {row.table3}
                     </Link>
                   )}
                 </TableCell>
-                <TableCell className={styles.header}>
+                <TableCell>
                   {row.table4 && (
                     <Link to={`${process.env.PUBLIC_URL}/tables/bookings/${row.table4}`}>
                       {row.table4}
                     </Link>
                   )}
                 </TableCell>
-                <TableCell className={styles.header}>
+                <TableCell>
                   {row.table5 && (
                     <Link to={`${process.env.PUBLIC_URL}/tables/bookings/${row.table5}`}>
                       {row.table5}
                     </Link>
                   )}
                 </TableCell>
-                <TableCell className={styles.header}>
+                <TableCell>
                   {row.table6 && (
                     <Link to={`${process.env.PUBLIC_URL}/tables/bookings/${row.table6}`}>
                       {row.table6}
