@@ -4,7 +4,6 @@ import { api } from '../settings';
 /* selectors */
 export const getAll = ({tables}) => tables.data;
 export const getLoadingState = ({tables}) => tables.loading;
-export const getStatus = ({tables}) => tables.status;
 
 /* action name creator */
 const reducerName = 'tables';
@@ -14,23 +13,17 @@ const createActionName = name => `app/${reducerName}/${name}`;
 const FETCH_START = createActionName('FETCH_START');
 const FETCH_SUCCESS = createActionName('FETCH_SUCCESS');
 const FETCH_ERROR = createActionName('FETCH_ERROR');
-
-const CHANGE_START = createActionName('CHANGE_START');
-const CHANGE_SUCCESS = createActionName('CHANGE_SUCCESS');
-const CHANGE_ERROR = createActionName('CHANGE_ERROR');
+const STATUS_UPDATE = createActionName('STATUS_UPDATE');
 
 /* action creators */
 export const fetchStarted = payload => ({ payload, type: FETCH_START });
 export const fetchSuccess = payload => ({ payload, type: FETCH_SUCCESS });
 export const fetchError = payload => ({ payload, type: FETCH_ERROR });
-
-export const changeStarted = payload => ({ payload, type: CHANGE_START});
-export const changeSuccess = payload => ({ payload, type: CHANGE_SUCCESS });
-export const changeError = payload => ({ payload, type: CHANGE_ERROR });
+export const statusUpdate = (table, status) => ({ table, status, type: STATUS_UPDATE });
 
 /* thunk creators */
 export const fetchFromAPI = () => {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch(fetchStarted());
 
     Axios
@@ -44,20 +37,17 @@ export const fetchFromAPI = () => {
   };
 };
 
-export const postToApi = (status) => {
-  return (dispatch, getState) => {
-    dispatch(changeStarted());
+export const fetchUpdate = (table, status) => {
+  return (dispatch) => {
+    dispatch(fetchStarted());
 
     Axios
-      .post(`${api.url}/${api.tables}`, {
-        status,
-      })
-
-      .then(res => {
-        dispatch(changeSuccess(res.data));
+      .get(`${api.url}/${api.tables}`)
+      .then( () => {
+        dispatch(statusUpdate(table, status));
       })
       .catch(err => {
-        dispatch(changeError(err.message || true));
+        dispatch(fetchError(err.message || true));
       });
   };
 };
@@ -93,36 +83,16 @@ export default function reducer(statePart = [], action = {}) {
         },
       };
     }
-
-    case CHANGE_START: {
-      return {
-        ...statePart,
-        loading: {
-          active: true,
-          error: false,
-        },
-      };
-    }
-    case CHANGE_SUCCESS: {
+    case STATUS_UPDATE: {
       return {
         ...statePart,
         loading: {
           active: false,
           error: false,
         },
-        data: action.payload,
+        data: statePart.data.map (order => order.table === action.table ? {...order, status: action.status} : order),
       };
     }
-    case CHANGE_ERROR: {
-      return {
-        ...statePart,
-        loading: {
-          active: false,
-          error: action.payload,
-        },
-      };
-    }
-
     default:
       return statePart;
   }

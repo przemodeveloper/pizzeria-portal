@@ -77,10 +77,6 @@ const Tables = () => {
         <Link className={classes.link} to="/panel/tables/booking/new">ADD BOOKING</Link>
       </Button>
 
-      <Button className={classes.button} variant="contained" color="primary">
-        <Link className={classes.link} to="/panel/tables/event/new">ADD EVENT</Link>
-      </Button>
-
       <Paper className={styles.component}>
         <Table>
           <TableHead>

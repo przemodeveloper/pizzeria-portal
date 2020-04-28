@@ -8,50 +8,54 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import {NavLink} from 'react-router-dom';
 
 class Waiter extends React.Component {
   static propTypes = {
     fetchTables: PropTypes.func,
     loading: PropTypes.shape({
       active: PropTypes.bool,
-      error: PropTypes.oneOfType(PropTypes.bool,PropTypes.string),
+      error: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     }),
-    tables: PropTypes.array,
+    tables: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+    fetchStatus: PropTypes.func,
   }
 
-  componentDidMount(){
+  componentDidMount() {
     const { fetchTables } = this.props;
     fetchTables();
   }
 
-  renderActions(status){
+  renderActions(table, status) {
+    const {fetchStatus} = this.props;
     switch (status) {
       case 'free':
         return (
           <>
-            <Button>thinking</Button>
-            <Button>new order</Button>
+            <Button onClick={() => fetchStatus(table, 'thinking')}>thinking</Button>
+            <Button color="primary" variant="contained" component={NavLink} to={`${process.env.PUBLIC_URL}/waiter/order/new`}>new order</Button>
           </>
         );
       case 'thinking':
         return (
-          <Button>new order</Button>
+          <Button color="primary" variant="contained" component={NavLink} to={`${process.env.PUBLIC_URL}/waiter/order/new`}>new order</Button>
         );
       case 'ordered':
         return (
-          <Button>prepared</Button>
+          <Button onClick={() => fetchStatus(table, 'prepared')}>prepared</Button>
         );
       case 'prepared':
         return (
-          <Button>delivered</Button>
+          <Button onClick={() => fetchStatus(table, 'delivered')}>delivered</Button>
         );
       case 'delivered':
         return (
-          <Button>paid</Button>
+          <Button onClick={() => fetchStatus(table, 'paid')}>paid</Button>
         );
       case 'paid':
         return (
-          <Button>free</Button>
+          <Button onClick={() => fetchStatus(table, 'free')}>free</Button>
         );
       default:
         return null;
@@ -60,6 +64,7 @@ class Waiter extends React.Component {
 
   render() {
     const { loading: { active, error }, tables } = this.props;
+    //console.log('tables: ', tables);
 
     if(active || !tables.length){
       return (
@@ -76,34 +81,38 @@ class Waiter extends React.Component {
       );
     } else {
       return (
+
         <Paper className={styles.component}>
+
+          <Typography variant="h5">WAITER WORKFLOW</Typography>
+
           <Table>
             <TableHead>
               <TableRow>
                 <TableCell>Table</TableCell>
+                <TableCell>Order ID</TableCell>
                 <TableCell>Status</TableCell>
-                <TableCell>Order</TableCell>
                 <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {tables.map(row => (
-                <TableRow key={row.id}>
+                <TableRow key={row.table}>
                   <TableCell component="th" scope="row">
-                    {row.id}
-                  </TableCell>
-                  <TableCell>
-                    {row.status}
+                    {row.table}
                   </TableCell>
                   <TableCell>
                     {row.order && (
-                      <Button to={`${process.env.PUBLIC_URL}/waiter/order/${row.order}`}>
+                      <Button variant="contained" component={NavLink} to={`${process.env.PUBLIC_URL}/waiter/order/${row.order}`}>
                         {row.order}
                       </Button>
                     )}
                   </TableCell>
                   <TableCell>
-                    {this.renderActions(row.status)}
+                    {row.status}
+                  </TableCell>
+                  <TableCell>
+                    {this.renderActions(row.table, row.status)}
                   </TableCell>
                 </TableRow>
               ))}
@@ -114,5 +123,9 @@ class Waiter extends React.Component {
     }
   }
 }
+
+Waiter.propTypes ={
+  tables: PropTypes.object,
+};
 
 export default Waiter;
