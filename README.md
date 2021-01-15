@@ -1,8 +1,16 @@
+## Title
+Pizzeria Portal
+
 ## Description
-This app allows to manage orders in the restaurant. It was created usign React.
+This app allows to manage orders in the restaurant. 
 
-## Running
-To run an app, in the project directory, type in the console 'npm start' or 'yarn start'.
+## Project status
+Completed
 
-## Building
-To build an app, in the project directory, type in the console 'npm run-script build'.
+## Technology
+React
+
+## Launch
+1. clone repository
+2. npm install
+3. npm start / yarn start
